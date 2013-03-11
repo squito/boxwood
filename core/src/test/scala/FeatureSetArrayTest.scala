@@ -32,6 +32,7 @@ class FeatureSetArrayTest extends FunSuite with ShouldMatchers  {
     F1.nFeatures should be (5)
     val v1 = new FeatureSetArray[Double, F1.type](F1)
     v1.arr.length should be (F1.nFeatures)
+    v1.arr.getClass should be (new Array[Double](0).getClass)
     object F2 extends BaseFeatureSet with MusicStyles with Age
     F2.nFeatures should be (9)
     val v2 = new FeatureSetArray[Double, F2.type](F2)
