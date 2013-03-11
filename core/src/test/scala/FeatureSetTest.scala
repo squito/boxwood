@@ -3,52 +3,58 @@ import org.scalatest.matchers.ShouldMatchers
 
 class FeatureSetTest extends FunSuite with ShouldMatchers  {
   test("multi-mixin indexes") {
-    val f = new BaseFeatureSet with Gender with Age
-    f.nFeatures should be (8)
-    f.ageStartIdx should be (0)
-    f.genderStartIdx should be (6)
-    f.baby should be (0)
-    f.male should be (6)
-    f.female should be (7)
+
+    {
+      val f1 = new BaseFeatureSet with Gender with Age
+      f1.nFeatures should be (8)
+      f1.ageStartIdx should be (0)
+      f1.genderStartIdx should be (6)
+      f1.baby should be (0)
+      f1.male should be (6)
+      f1.female should be (7)
+    }
+
+    {
+      val f2 = new BaseFeatureSet with Age with Gender
+      f2.nFeatures should be (8)
+      f2.ageStartIdx should be (2)
+      f2.genderStartIdx should be (0)
+      f2.baby should be (2)
+      f2.male should be (0)
+      f2.female should be (1)
+    }
+
+    {
+      val f3 = new BaseFeatureSet with Gender with MusicStyles
+      f3.nFeatures should be (5)
+      f3.genderStartIdx should be (3)
+      f3.musicStylesStartIdx should be (0)
+      f3.male should be (3)
+      f3.female should be (4)
+      f3.classical should be (0)
+      f3.rock should be (1)
+      f3.country should be (2)
+    }
   }
 }
 
 trait Gender extends FeatureSet {
-  var genderStartIdx: Int = 0
+  var genderStartIdx: Int = _
   abstract override def setOffsetIndex(idx: Int) = {
-    println("calling gender w/ " + idx)
     genderStartIdx = idx
-    println("genderStartIdx#1 = " + genderStartIdx)
-    val r = super.setOffsetIndex(idx + 2)
-    println("genderStartIdx#2 = " + genderStartIdx)
-    r
+    super.setOffsetIndex(idx + 2)
   }
 
-  abstract override def show {
-    println("genderStartIdx = " + genderStartIdx)
-  }
-
-  def male = {
-    println("in male, genderStartIdx = " + genderStartIdx)
-    genderStartIdx
-  }
+  def male = genderStartIdx
   def female = genderStartIdx + 1
 }
 
 trait Age extends FeatureSet {
-  var ageStartIdx: Int = 0
+  var ageStartIdx: Int = _
   abstract override def setOffsetIndex(idx: Int) = {
-    show
-    println("calling age w/ " + idx)
     ageStartIdx = idx
-    val r = super.setOffsetIndex(idx + 6)
-    show
-    r
+    super.setOffsetIndex(idx + 6)
   }
-  abstract override def show {
-    super.show
-  }
-
   def baby = ageStartIdx
   def child = ageStartIdx + 1
   def teenager = ageStartIdx + 2
@@ -59,7 +65,7 @@ trait Age extends FeatureSet {
 }
 
 trait MusicStyles extends FeatureSet {
-  var musicStylesStartIdx: Int = 0
+  var musicStylesStartIdx: Int = _
   abstract override def setOffsetIndex(idx: Int) = {
     musicStylesStartIdx = idx
     super.setOffsetIndex(idx + 3)
@@ -68,5 +74,3 @@ trait MusicStyles extends FeatureSet {
   def rock = musicStylesStartIdx + 1
   def country = musicStylesStartIdx + 2
 }
-
-class F1 extends BaseFeatureSet with Gender

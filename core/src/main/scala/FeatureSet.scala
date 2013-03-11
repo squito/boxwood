@@ -11,14 +11,15 @@ trait FeatureSet {
    */
   def setOffsetIndex(index: Int) : Int
 
-  def show
-
-
-  val nFeatures = setOffsetIndex(0)
+  def nFeatures: Int
 }
 
 
 class BaseFeatureSet extends FeatureSet {
-  override def setOffsetIndex(index: Int) = index
-  override def show {}
+  var nFeatures: Int = _
+  override def setOffsetIndex(index: Int) = {
+    nFeatures = index
+    index
+  }
+  setOffsetIndex(0)
 }
