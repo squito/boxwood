@@ -1,3 +1,5 @@
+package com.quantifind.boxwood
+
 object FeatureSetArray {
   def makeArray[T: Manifest](featureSet: FeatureSet): Array[T] = {
     new Array[T](featureSet.nFeatures)

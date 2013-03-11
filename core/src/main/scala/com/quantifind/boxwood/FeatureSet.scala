@@ -1,3 +1,5 @@
+package com.quantifind.boxwood
+
 trait FeatureSet {
   /**
    * takes in the starting index for this feature set.
