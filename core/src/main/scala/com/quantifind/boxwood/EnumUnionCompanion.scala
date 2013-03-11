@@ -13,4 +13,5 @@ trait EnumUnionCompanion {
     }
     tmp.toMap
   }
+  def nEnums = enumToIdx.values.max + 1
 }
