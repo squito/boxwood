@@ -14,8 +14,8 @@ Define a trait for each "group" of features that extends `FeatureSet`.  Be sure 
     trait SodaSize extends FeatureSet {
       var sodaSizeStartIdx = _
       abstract override def setSOffsetIndex(idx: Int) = {
-	sodaSizeStartIdx = idx
-	super(idx + 3)
+        sodaSizeStartIdx = idx
+        super(idx + 3)
       }
       def small = sodaSizeStartIdx
       def medium = sodaSizeStartIdx + 1
@@ -25,8 +25,8 @@ Define a trait for each "group" of features that extends `FeatureSet`.  Be sure 
     trait Entree extends FeatureSet {
       var entreeStartIdx = _
       abstract override def setSOffsetIndex(idx: Int) = {
-	entryStartIdx = idx
-	super(idx + 2)
+        entryStartIdx = idx
+        super(idx + 2)
       }
       def hotdog = entreeStartIdx
       def hamburger = entree StartIdx + 1
@@ -74,7 +74,7 @@ a case class, a map, or an array.  All of them have some faults which Boxwood co
 
 First, lets consider a case class.  Why didn't I just define:
 
-  case class EntreeOrder(hamburgers:Int, hotdogs: Int)
+    case class EntreeOrder(hamburgers:Int, hotdogs: Int)
 
 and just directly store the number of hamburgers and hotdogs order in that class?  Now I don't have a simple way to add orders
 together.  Sure, I can define `+=`, but I've got to do that for every group of features I add.  (Maybe the executives
