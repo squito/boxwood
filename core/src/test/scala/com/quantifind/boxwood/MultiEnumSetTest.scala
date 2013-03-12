@@ -3,6 +3,20 @@ package com.quantifind.boxwood
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
 
+
+class Union_A_B[T <: Enum[T]]
+
+object Union_A_B extends EnumUnionCompanion {
+  //for these implicits to work, they must be defined *above* their use (if in the same source file)
+  implicit object AWitness extends Union_A_B[A]
+  implicit object BWitness extends Union_A_B[B]
+
+  val enumClasses = Seq(classOf[A], classOf[B])
+
+  //can't figure out how to lift this function to the trait ...
+  def getIdx[T <: Enum[T]: Union_A_B](x: T): Int = enumToIdx(x.asInstanceOf[Enum[_]])
+}
+
 class MultiEnumSetTest extends FunSuite with ShouldMatchers {
 
   test("multi enums") {
@@ -17,9 +31,7 @@ class MultiEnumSetTest extends FunSuite with ShouldMatchers {
 
     //now try a type-safe version
 
-    import Union_A_B._  //why doesn't bring in the implicits?
-    implicit object AWitness extends Union_A_B[A]
-    implicit object BWitness extends Union_A_B[B]
+    import Union_A_B._
     A.values().foreach {a => getIdx(a) should be (a.ordinal())}
     B.values().foreach {b => getIdx(b) should be (b.ordinal() + 2)}
 
@@ -29,14 +41,3 @@ class MultiEnumSetTest extends FunSuite with ShouldMatchers {
 }
 
 
-class Union_A_B[T <: Enum[T]]
-
-object Union_A_B extends EnumUnionCompanion {
-  implicit object AWitness extends Union_A_B[A] //not sure why, these are useless when defined here
-  implicit object BWitness extends Union_A_B[B]
-
-  val enumClasses = Seq(classOf[A], classOf[B])
-
-  //can't figure out how to lift this function to the trait ...
-  def getIdx[T <: Enum[T]: Union_A_B](x: T): Int = enumToIdx(x.asInstanceOf[Enum[_]])
-}
