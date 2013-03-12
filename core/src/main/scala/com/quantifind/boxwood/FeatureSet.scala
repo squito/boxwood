@@ -11,7 +11,7 @@ trait FeatureSet {
    * @param index
    * @return
    */
-  def setOffsetIndex(index: Int) : Int
+  def setOffsetIndex(index: Int): Int
 
   def nFeatures: Int
 }
