@@ -12,7 +12,7 @@ trait EnumUnion[+T <: Enum[_]]
  */
 trait EnumUnionCompanion[E <: EnumUnion[Enum[_]]] {
   val enumClasses: Seq[Class[_ <: Enum[_]]]
-  lazy val enumToIdx: Map[Enum[_], Int] = enumClasses.flatMap(_.getEnumConstants.toSeq).zipWithIndex.toMap
+  private[boxwood] lazy val enumToIdx: Map[Enum[_], Int] = enumClasses.flatMap(_.getEnumConstants.toSeq).zipWithIndex.toMap
 
   /** the number of enum *constants* over all enums in this union type */
   def nEnums = enumToIdx.values.max + 1
