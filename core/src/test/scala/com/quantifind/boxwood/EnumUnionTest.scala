@@ -21,7 +21,7 @@ object Union_B_C extends EnumUnionCompanion[Union_B_C[_ <: Enum[_]]] {
   val enumClasses = Seq(classOf[B], classOf[C])
 }
 
-class MultiEnumSetTest extends FunSuite with ShouldMatchers {
+class EnumUnionTest extends FunSuite with ShouldMatchers {
 
   test("multi enums") {
     Union_A_B.nEnums should be (A.values().length + B.values().length)
