@@ -33,8 +33,27 @@ class EnumUnionFeatureSetTest extends FunSuite with ShouldMatchers {
       f3.child should be (5)
     }
   }
+
+  test("enum methods") {
+    {
+      //signature is a little crazy, but you can write a method that can deal w/ just one enum from
+      // within an enumUnionFeatureSet
+      def blah[T <: EnumUnion[Enum[_]]](bFeatureSet: EnumUnionFeatureSet[T])(implicit ev: T with EnumUnion[C]) = {
+        bFeatureSet.get(C.Ooga)
+      }
+
+      blah(new BaseFeatureSet with B_C_FeatureSet with Age) should be (8)
+      blah(new BaseFeatureSet with Gender with B_C_FeatureSet) should be (2)
+      //compiler error if you try to get a C from a feature set that doesn't have it
+      //blah(new BaseFeatureSet with A_B_FeatureSet)
+    }
+  }
 }
 
 trait A_B_FeatureSet extends EnumUnionFeatureSet[Union_A_B[_ <: Enum[_]]] {
   def enumUnion = Union_A_B //TODO has to be a def -- add this to gotchas in README
+}
+
+trait B_C_FeatureSet extends EnumUnionFeatureSet[Union_B_C[_ <: Enum[_]]] {
+  def enumUnion = Union_B_C
 }
