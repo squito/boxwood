@@ -11,6 +11,8 @@ Usage
 Define a trait for each "group" of features that extends `FeatureSet`.  Be sure to use
 `abstract override` when you define `setOffsetIndex`
 
+    import com.quantifind.boxwood._
+
     trait SodaSize extends FeatureSet {
       var sodaSizeStartIdx: Int = _
       abstract override def setOffsetIndex(idx: Int) = {
