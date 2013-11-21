@@ -42,12 +42,19 @@ the data as an array if you like, and also access specific elements in a type-sa
 
     val engLunchOrder = new FeatureSetArray[Int, LunchOrder.type](LunchOrder)
     //... get lunch order from engineers
+    engLunchOrder(LunchOrder.hotdog) = 3
+    engLunchOrder(LunchOrder.hamburger) = 1
+    engLunchOrder(LunchOrder.medium) = 4
+
     val salesLunchOrder = new FeatureSetArray[Int, LunchOrder.type](LunchOrder)
     //... get lunch order from salespeople
+    salesLunchOrder(LunchOrder.hotdog) = 3
+    salesLunchOrder(LunchOrder.small) = 1
+    salesLunchOrder(LunchOrder.large) = 2
 
     //combine the order together.  note how we can loop over the fields easily
     val companyOrder = new FeatureSetArray[Int, LunchOrder.type](
-      engLunchOrder.arr.zip(salesLunchOrder.arr).map{_ + _},
+      engLunchOrder.arr.zip(salesLunchOrder.arr).map{case(eng, sales) => eng+sales},
       LunchOrder
     )
 
