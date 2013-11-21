@@ -1,8 +1,8 @@
 Boxwood
 =======
 
-Memory-efficient & fast storage of data like in arrays; named-fields with type-checking
-like in case classes. Particularly useful for numeric calculations over a well-defined
+Memory-efficient & fast storage of data (like an array); named-fields with type-checking
+(like a case class). Particularly useful for numeric calculations over a well-defined
 space of features.
 
 Usage
@@ -12,10 +12,10 @@ Define a trait for each "group" of features that extends `FeatureSet`.  Be sure 
 `abstract override` when you define `setOffsetIndex`
 
     trait SodaSize extends FeatureSet {
-      var sodaSizeStartIdx = _
-      abstract override def setSOffsetIndex(idx: Int) = {
+      var sodaSizeStartIdx: Int = _
+      abstract override def setOffsetIndex(idx: Int) = {
         sodaSizeStartIdx = idx
-        super(idx + 3)
+        super.setOffsetIndex(idx + 3)
       }
       def small = sodaSizeStartIdx
       def medium = sodaSizeStartIdx + 1
@@ -23,13 +23,13 @@ Define a trait for each "group" of features that extends `FeatureSet`.  Be sure 
     }
 
     trait Entree extends FeatureSet {
-      var entreeStartIdx = _
-      abstract override def setSOffsetIndex(idx: Int) = {
-        entryStartIdx = idx
-        super(idx + 2)
+      var entreeStartIdx: Int = _
+      abstract override def setOffsetIndex(idx: Int) = {
+        entreeStartIdx = idx
+        super.setOffsetIndex(idx + 2)
       }
       def hotdog = entreeStartIdx
-      def hamburger = entree StartIdx + 1
+      def hamburger = entreeStartIdx + 1
     }
 
 
@@ -42,12 +42,12 @@ the data as an array if you like, and also access specific elements in a type-sa
 
     val engLunchOrder = new FeatureSetArray[Int, LunchOrder.type](LunchOrder)
     //... get lunch order from engineers
-    val salesLunchOrder = new FeatureSetArray[Int,LunchOrder.type](LunchOrder)
+    val salesLunchOrder = new FeatureSetArray[Int, LunchOrder.type](LunchOrder)
     //... get lunch order from salespeople
 
     //combine the order together.  note how we can loop over the fields easily
-    val companyOrder = new FeatureSetArray[Int,LunchOrder.type](
-      engLunchOrder.arr.zipWith(salesLunchOrder.arr).map{_ + _},
+    val companyOrder = new FeatureSetArray[Int, LunchOrder.type](
+      engLunchOrder.arr.zip(salesLunchOrder.arr).map{_ + _},
       LunchOrder
     )
 
@@ -121,8 +121,8 @@ Be sure to set the "initial" value of each trait's offset holder to `_`, not to 
       // get set back to 0 after a call to setOffsetIndex has set it to the right value
       var blahStartIdx = 0
       abstract override def setOffsetIndex(myIndex: Int) = {
-	blahStartIdx = myIndex
-	myIndex + 2
+        blahStartIdx = myIndex
+        myIndex + 2
       }
       ...
     }
