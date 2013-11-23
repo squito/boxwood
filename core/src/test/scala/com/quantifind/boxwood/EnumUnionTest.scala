@@ -38,14 +38,20 @@ class EnumUnionTest extends FunSuite with ShouldMatchers {
     A.values().foreach {a => getIdx(a) should be (a.ordinal())}
     B.values().foreach {b => getIdx(b) should be (b.ordinal() + 2)}
 
+    import shapeless.test.illTyped
+
     //this version won't even compile
-//    getIdx(C.Ooga)
+    illTyped("""
+      getIdx(C.Ooga)
+    """)
     //We can have multiple enum unions exist side by side
     import Union_B_C._
     B.values().foreach {b => Union_B_C.getIdx(b) should be (b.ordinal())}
     C.values().foreach {c => Union_B_C.getIdx(c) should be (c.ordinal() + 2)}
     //Though A exists in some union type, Union_B_C still doesn't know about it, so this won't compile
-//    A.values().foreach {a => Union_B_C.getIdx(a) should be (a.ordinal())}
+    illTyped("""
+      A.values().foreach {a => Union_B_C.getIdx(a) should be (a.ordinal())}
+    """)
   }
 }
 

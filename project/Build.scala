@@ -7,7 +7,7 @@ object SparkBuild extends Build {
   val qf = "http://repo.quantifind.com/content/repositories/"
   def sharedSettings = Defaults.defaultSettings ++ Seq(
     version := "0.1-SNAPSHOT",
-    scalaVersion := "2.9.1",
+    scalaVersion := "2.10.2",
     organization := "com.quantifind",
     scalacOptions := Seq(/*"-deprecation",*/ "-unchecked", "-optimize"), // -deprecation is too noisy due to usage of old Hadoop API, enable it once that's no longer an issue
     unmanagedJars in Compile <<= baseDirectory map { base => (base / "lib" ** "*.jar").classpath },
@@ -19,7 +19,8 @@ object SparkBuild extends Build {
         Some("snapshots" at qf + "ext-snapshots")
     },
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "1.6.1" % "test"
+      "org.scalatest" %% "scalatest" % "2.0" % "test",
+      "com.chuusai" % "shapeless_2.10.2" % "2.0.0-M1" % "test"
     )
   )
 
@@ -29,7 +30,8 @@ object SparkBuild extends Build {
     name := "Boxwood",
     resolvers ++= Seq(
       "Typesafe Repository" at "http://repo.typesafe.com/typesafe/releases/",
-      "JBoss Repository" at "http://repository.jboss.org/nexus/content/repositories/releases/"
+      "JBoss Repository" at "http://repository.jboss.org/nexus/content/repositories/releases/",
+      Resolver.sonatypeRepo("snapshots")
     ),
     libraryDependencies ++= Seq(
       "log4j" % "log4j" % "1.2.16",
