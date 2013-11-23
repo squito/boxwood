@@ -45,7 +45,11 @@ class EnumUnionFeatureSetTest extends FunSuite with ShouldMatchers {
       blah(new BaseFeatureSet with B_C_FeatureSet with Age) should be (8)
       blah(new BaseFeatureSet with Gender with B_C_FeatureSet) should be (2)
       //compiler error if you try to get a C from a feature set that doesn't have it
-      //blah(new BaseFeatureSet with A_B_FeatureSet)
+      import shapeless.test.illTyped
+      illTyped(
+        """
+          blah(new BaseFeatureSet with A_B_FeatureSet)
+        """)
     }
   }
 }
