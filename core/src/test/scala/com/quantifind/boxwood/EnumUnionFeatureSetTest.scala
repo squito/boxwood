@@ -32,6 +32,13 @@ class EnumUnionFeatureSetTest extends FunSuite with ShouldMatchers {
       f3.baby should be (4)
       f3.child should be (5)
     }
+
+    {
+      val f = new BaseFeatureSet with A_B_FeatureSet
+      val fv = new FeatureSetArray[Double, A_B_FeatureSet](f)
+      fv.arr.length should be (f.nFeatures)
+      fv.arr(f.get(A.Foo)) = 7
+    }
   }
 
   test("enum methods") {
