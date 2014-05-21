@@ -1,6 +1,6 @@
 package com.quantifind.boxwood
 
-trait FeatureSet {
+trait FeatureSet extends Serializable {
   /**
    * takes in the starting index for this feature set.
    *
