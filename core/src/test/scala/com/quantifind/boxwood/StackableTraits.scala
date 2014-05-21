@@ -45,7 +45,6 @@ trait Foo {
 trait M extends Foo {
   var mName : String = _
   abstract override def foo() {
-    println("M")
     mName = "M"
     super.foo()
   }
@@ -54,14 +53,13 @@ trait M extends Foo {
 trait Q extends Foo {
   var qName : String = _
   abstract override def foo() {
-    println("Q")
     qName = "Q"
     super.foo()
   }
 }
 
 class FooImpl1 extends Foo {
-  override def foo() {println("Impl")}
+  override def foo() {}
 }
 
 class FooImpl2 extends FooImpl1 with M
@@ -91,7 +89,7 @@ trait Y extends Bar {
 }
 
 class BarImpl extends Bar {
-  override def bar(i: Int) = {println("i = " + i); i}
+  override def bar(i: Int) = {i}
 }
 
 class BarImpl2 extends BarImpl with X
