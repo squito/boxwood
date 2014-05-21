@@ -41,6 +41,16 @@ class EnumUnionFeatureSetTest extends FunSuite with ShouldMatchers {
     }
   }
 
+  test("index to enum") {
+    val f = new BaseFeatureSet with A_B_FeatureSet
+    A.values().zipWithIndex.foreach{case(a, idx) =>
+      f.enumUnion.getEnum(idx) should be (a)
+    }
+    B.values().zipWithIndex.foreach{case(b, idx) =>
+      f.enumUnion.getEnum(idx + A.values().length) should be (b)
+    }
+  }
+
   test("enum methods") {
     {
       //signature is a little crazy, but you can write a method that can deal w/ just one enum from
